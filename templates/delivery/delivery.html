@@ -1,0 +1,82 @@
+{% extends 'delivery/layout.html' %}
+
+{% block content %}
+    <br><br>
+<div class="col-md-4 text-center">
+    <h3 style="background-color:#0aaaed;"><b>All Deliveries: </b></h3>
+    <br>
+    <!--{% for posts in posts %}
+    <div style="background-color:#D3D3D3;">
+        <div style="text-transform:uppercase;">
+            <h3><b><a style="text-decoration: none;" href="#">{{ posts.title }}</a></b></h3>
+            <h5>{{ posts.location }}</h5>
+        </div>
+        <p>{{ posts.description }}</p>
+        <span>From {{ posts.from_day }} to {{ posts.to_day }}</span>
+        <h6>Working hours (Hours/day): {{ posts.commitment_needed }}</h6>
+        <div class="form-group">
+            <a class="btn btn-outline-info btn-successful" style="border-color:green;color:black;" href="{% url 'apply' %}">Apply</a>
+        </div>
+        <br>
+    </div><hr>
+    {% endfor %}-->
+
+    <table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Sender Name</th>
+      <th scope="col">Reciever Name</th>
+      <th scope="col">Package Name</th>
+      <th scope="col">Package Type</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Weight</th>
+      <th scope="col">Address</th>
+      <th scope="col">City</th>
+      <th scope="col">Order Date</th>
+      <th scope="col">Delivered</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ord in ord %}
+            <tr>
+                <th scope="row">{{ord.id}}</th>
+                <td>{{ord.your_name}}</td>
+                <td>{{ord.to_name}}</td>
+                <td>{{ord.package_name}}</td>
+                <td>{{ord.package_type}}</td>
+                <td>{{ord.quantity}}</td>
+                <td>{{ord.weight}}</td>
+                <td>{{ord.address}}</td>
+                <td>{{ord.city}}</td>
+                <td>{{ord.orderdate}}</td>
+                {% if ord.delivered %}
+                  <td style="color: green;">Yes</td>
+                {% else %}
+                  <td style="color: red;">No</td>
+                {% endif %}
+            </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+<h5>Delivered Option</h5>
+  <p>Select order ID:</p>
+  <form method = "post" action = "{% url 'delivery' %}">
+    {% csrf_token %}
+
+    <select name = "dropid" >
+    {% for ord in ord %}
+      <option value="{{ord.id}}">{{ord.id}}</option>
+    {% endfor %}
+    </select>
+  <p>Delivered ?</p>
+    <select name = "dropstatus" >
+      <option value="True">Yes</option>
+      <option value="False">No</option>
+    </select>
+
+    <br><br>
+<input  type = "submit" value="Confirm">
+</form>
+{% endblock content %}
